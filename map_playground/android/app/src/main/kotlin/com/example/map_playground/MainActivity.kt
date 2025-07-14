@@ -1,4 +1,4 @@
-package com.example.map_playground
+package com.tyger.mapPlayground
 
 import io.flutter.embedding.android.FlutterActivity
 
