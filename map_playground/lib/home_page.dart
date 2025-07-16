@@ -9,43 +9,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final String _mapStyle = '''
-  [
-    {
-      "featureType": "poi",
-      "elementType": "labels",
-      "stylers": [
-        { "visibility": "off" }
-      ]
-    },
-    {
-      "featureType": "road",
-      "elementType": "geometry",
-      "stylers": [
-        { "color": "#cccccc" }
-      ]
-    }
-  ]
-  ''';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          zoom: 20,
-          target: LatLng(37.5642135, 127.0016985),
+      body: SafeArea(
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            zoom: 20,
+            // target: LatLng(37.5642135, 127.0016985),
+            target: LatLng(40.750298, -73.993324),
+          ),
+
+          trafficEnabled: false,
+          // markers: {
+          //   Marker(
+          //     markerId: MarkerId("test"),
+          //     position: LatLng(37.5665, 126.9780),
+          //   )
+          // },
+          // cameraTargetBounds: CameraTargetBounds(
+          //   LatLngBounds(
+          //     southwest: LatLng(33.0, 124.0),
+          //     northeast: LatLng(39.5, 131.0),
+          //   ),
+          // ),
         ),
-        style: '''
-  [
-    {
-      "featureType": "poi",
-      "elementType": "labels",
-      "stylers": [
-        { "visibility": "off" }
-      ]
-    }
-  ]
-  ''',
       ),
     );
   }
