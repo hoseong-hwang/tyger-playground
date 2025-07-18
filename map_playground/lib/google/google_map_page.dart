@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -22,13 +23,37 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     }
   }
 
-  Future<void> _zoomInAndOut(bool isZoomIn) async {
-    if (isZoomIn) {
-      _controller?.animateCamera(CameraUpdate.zoomBy(1));
+  void _moveZoom(CameraUpdate update, bool isJumpTo) {
+    if (isJumpTo) {
+      _controller?.moveCamera(update);
     } else {
-      _controller?.animateCamera(CameraUpdate.zoomBy(-2));
+      _controller?.animateCamera(update);
     }
   }
+
+  void _zoomInAndOut(bool isZoomIn, bool isJumpTo) {
+    if (isZoomIn) {
+      _moveZoom(CameraUpdate.zoomIn(), isJumpTo);
+    } else {
+      _moveZoom(CameraUpdate.zoomOut(), isJumpTo);
+    }
+  }
+
+  // void _zoomBy(bool isZoomIn, bool isJumpTo) {
+  //   if (isZoomIn) {
+  //     _moveZoom(CameraUpdate.zoomBy(2), isJumpTo);
+  //   } else {
+  //     _moveZoom(CameraUpdate.zoomBy(-4), isJumpTo);
+  //   }
+  // }
+
+  // void _zoomTo(bool isZoomIn, bool isJumpTo) {
+  //   if (isZoomIn) {
+  //     _moveZoom(CameraUpdate.zoomTo(20), isJumpTo);
+  //   } else {
+  //     _moveZoom(CameraUpdate.zoomTo(2), isJumpTo);
+  //   }
+  // }
 
   // Future<void> _goToNYC(bool isJumpTo) async {
   //   const LatLng postion = LatLng(40.7128, -74.0060);
@@ -70,7 +95,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   //   double y = 0,
   // }) async {
   //   if (isJumpTo) {
-  //     _controller?.moveCamera(CameraUpdate.scrollBy(x, y));
+  // _controller?.moveCamera(CameraUpdate.scrollBy(x, y));
   //   } else {
   //     _controller?.animateCamera(CameraUpdate.scrollBy(x, y));
   //   }
@@ -169,6 +194,25 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           //     ),
           //   ),
           // ),
+          Align(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.black.withOpacity(0.8),
+              ),
+              child: const Text(
+                // "Zoom In/Out",
+                // "Zoom By(+2/-4)",
+                "Zoom To(+20/-2)",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+          ),
           Positioned(
             bottom: 92 + 12,
             right: 20,
@@ -178,7 +222,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                   ...List.generate(
                     2,
                     (i) => GestureDetector(
-                      onTap: () => _zoomInAndOut(i == 0),
+                      onTap: () => _zoomInAndOut(i == 0, false),
                       child: Container(
                         width: 40,
                         height: 40,
