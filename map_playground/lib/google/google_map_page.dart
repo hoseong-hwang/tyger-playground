@@ -65,14 +65,14 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   // }
 
   // Future<void> _resetCameraPostion(bool isJumpTo) async {
-  //   const LatLng position = LatLng(41.9028, 12.4964);
+  //   const LatLng position = LatLng(37.5642135, 127.0016985);
   //   if (isJumpTo) {
   //     _controller?.moveCamera(CameraUpdate.newCameraPosition(
-  //       const CameraPosition(target: position, zoom: 10),
+  //       const CameraPosition(target: position, zoom: 20, bearing: 90, tilt: 45),
   //     ));
   //   } else {
   //     _controller?.animateCamera(CameraUpdate.newCameraPosition(
-  //       const CameraPosition(target: position, zoom: 10),
+  //       const CameraPosition(target: position, zoom: 20, bearing: 90, tilt: 45),
   //     ));
   //   }
   // }
@@ -101,8 +101,17 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   //   }
   // }
 
+  void test() async {
+    print(await _controller?.getLatLng(ScreenCoordinate(x: 100, y: 100)));
+    print(await _controller?.getVisibleRegion());
+    print(await _controller
+        ?.getScreenCoordinate(LatLng(37.5642135, 127.0016985)));
+    // print(_controller?.clearTileCache(tileOverlayId));
+  }
+
   @override
   Widget build(BuildContext context) {
+    test();
     return Scaffold(
       body: Stack(
         children: [
@@ -174,7 +183,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           //   child: Align(
           //     alignment: Alignment.bottomCenter,
           //     child: GestureDetector(
-          //       onTap: () => _resetCameraPostion(true),
+          //       onTap: () => _resetCameraPostion(false),
           //       child: Container(
           //         margin: const EdgeInsets.only(bottom: 20),
           //         padding:
@@ -183,7 +192,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           //             borderRadius: BorderRadius.circular(8),
           //             color: Colors.green.withOpacity(0.8)),
           //         child: const Text(
-          //           "Jump to Reset",
+          //           "Animate to Reset",
           //           style: TextStyle(
           //             color: Colors.white,
           //             fontSize: 16,
@@ -194,25 +203,25 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           //     ),
           //   ),
           // ),
-          Align(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black.withOpacity(0.8),
-              ),
-              child: const Text(
-                // "Zoom In/Out",
-                // "Zoom By(+2/-4)",
-                "Zoom To(+20/-2)",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-          ),
+          // Align(
+          //   child: Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(8),
+          //       color: Colors.black.withOpacity(0.8),
+          //     ),
+          //     child: const Text(
+          //       // "Zoom In/Out",
+          //       // "Zoom By(+2/-4)",
+          //       "Zoom To(+20/-2)",
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 20,
+          //         color: Colors.green,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             bottom: 92 + 12,
             right: 20,
