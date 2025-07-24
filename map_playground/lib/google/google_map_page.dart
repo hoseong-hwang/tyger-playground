@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -14,30 +13,30 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   final Location location = Location();
   GoogleMapController? _controller;
 
-  Future<void> _moveCurrentLocation() async {
-    final LocationData data = await location.getLocation();
-    if (data.longitude != null && data.latitude != null) {
-      _controller?.animateCamera(
-        CameraUpdate.newLatLng(LatLng(data.latitude!, data.longitude!)),
-      );
-    }
-  }
+  // Future<void> _moveCurrentLocation() async {
+  //   final LocationData data = await location.getLocation();
+  //   if (data.longitude != null && data.latitude != null) {
+  //     _controller?.animateCamera(
+  //       CameraUpdate.newLatLng(LatLng(data.latitude!, data.longitude!)),
+  //     );
+  //   }
+  // }
 
-  void _moveZoom(CameraUpdate update, bool isJumpTo) {
-    if (isJumpTo) {
-      _controller?.moveCamera(update);
-    } else {
-      _controller?.animateCamera(update);
-    }
-  }
+  // void _moveZoom(CameraUpdate update, bool isJumpTo) {
+  //   if (isJumpTo) {
+  //     _controller?.moveCamera(update);
+  //   } else {
+  //     _controller?.animateCamera(update);
+  //   }
+  // }
 
-  void _zoomInAndOut(bool isZoomIn, bool isJumpTo) {
-    if (isZoomIn) {
-      _moveZoom(CameraUpdate.zoomIn(), isJumpTo);
-    } else {
-      _moveZoom(CameraUpdate.zoomOut(), isJumpTo);
-    }
-  }
+  // void _zoomInAndOut(bool isZoomIn, bool isJumpTo) {
+  //   if (isZoomIn) {
+  //     _moveZoom(CameraUpdate.zoomIn(), isJumpTo);
+  //   } else {
+  //     _moveZoom(CameraUpdate.zoomOut(), isJumpTo);
+  //   }
+  // }
 
   // void _zoomBy(bool isZoomIn, bool isJumpTo) {
   //   if (isZoomIn) {
@@ -101,17 +100,8 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   //   }
   // }
 
-  void test() async {
-    print(await _controller?.getLatLng(ScreenCoordinate(x: 100, y: 100)));
-    print(await _controller?.getVisibleRegion());
-    print(await _controller
-        ?.getScreenCoordinate(LatLng(37.5642135, 127.0016985)));
-    // print(_controller?.clearTileCache(tileOverlayId));
-  }
-
   @override
   Widget build(BuildContext context) {
-    test();
     return Scaffold(
       body: Stack(
         children: [
@@ -127,6 +117,18 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             myLocationButtonEnabled: false,
             myLocationEnabled: false,
             zoomControlsEnabled: false,
+            markers: {
+              const Marker(
+                  markerId: MarkerId("1"),
+                  position: LatLng(40.7128, -74.0060)), // New York
+
+              const Marker(
+                  markerId: MarkerId("1"),
+                  position: LatLng(41.8781, -87.6298)), // Chicago
+              const Marker(
+                  markerId: MarkerId("1"),
+                  position: LatLng(34.0522, -118.2437)), // Los Angeles
+            },
           ),
           // Align(
           //   alignment: Alignment.center,
@@ -222,58 +224,58 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           //     ),
           //   ),
           // ),
-          Positioned(
-            bottom: 92 + 12,
-            right: 20,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  ...List.generate(
-                    2,
-                    (i) => GestureDetector(
-                      onTap: () => _zoomInAndOut(i == 0, false),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        margin: EdgeInsets.only(bottom: i == 0 ? 8 : 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                        child: Icon(
-                          i == 0 ? Icons.add : Icons.remove,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: SafeArea(
-              child: GestureDetector(
-                onTap: () => _moveCurrentLocation(),
-                child: Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(72),
-                    color: Colors.black.withOpacity(0.7),
-                  ),
-                  child: Icon(
-                    Icons.my_location_rounded,
-                    size: 36,
-                    color: Colors.white.withOpacity(0.8),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 92 + 12,
+          //   right: 20,
+          //   child: SafeArea(
+          //     child: Column(
+          //       children: [
+          //         ...List.generate(
+          //           2,
+          //           (i) => GestureDetector(
+          //             onTap: () => _zoomInAndOut(i == 0, false),
+          //             child: Container(
+          //               width: 40,
+          //               height: 40,
+          //               margin: EdgeInsets.only(bottom: i == 0 ? 8 : 0),
+          //               decoration: BoxDecoration(
+          //                 borderRadius: BorderRadius.circular(4),
+          //                 color: Colors.black.withOpacity(0.6),
+          //               ),
+          //               child: Icon(
+          //                 i == 0 ? Icons.add : Icons.remove,
+          //                 size: 30,
+          //                 color: Colors.white,
+          //               ),
+          //             ),
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Positioned(
+          //   bottom: 20,
+          //   right: 20,
+          //   child: SafeArea(
+          //     child: GestureDetector(
+          //       onTap: () => _moveCurrentLocation(),
+          //       child: Container(
+          //         width: 72,
+          //         height: 72,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(72),
+          //           color: Colors.black.withOpacity(0.7),
+          //         ),
+          //         child: Icon(
+          //           Icons.my_location_rounded,
+          //           size: 36,
+          //           color: Colors.white.withOpacity(0.8),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
