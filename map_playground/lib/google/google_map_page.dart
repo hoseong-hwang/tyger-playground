@@ -130,7 +130,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                   // icon: BitmapDescriptor.defaultMarkerWithHue(
                   //   BitmapDescriptor.hueAzure,
                   // ),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(20),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(35),
                   draggable: true,
                   // visible: false,
                   onDrag: (_) {
