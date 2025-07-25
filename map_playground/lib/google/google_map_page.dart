@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -111,23 +113,36 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 _controller = controller,
             initialCameraPosition: const CameraPosition(
               zoom: 20,
-              target: LatLng(37.5642135, 127.0016985),
+              // target: LatLng(37.5642135, 127.0016985),
+              target: LatLng(40.7128, -74.0060),
             ),
             mapType: MapType.normal,
             myLocationButtonEnabled: false,
             myLocationEnabled: false,
             zoomControlsEnabled: false,
             markers: {
-              const Marker(
-                  markerId: MarkerId("1"),
-                  position: LatLng(40.7128, -74.0060)), // New York
-
-              const Marker(
-                  markerId: MarkerId("1"),
-                  position: LatLng(41.8781, -87.6298)), // Chicago
-              const Marker(
-                  markerId: MarkerId("1"),
-                  position: LatLng(34.0522, -118.2437)), // Los Angeles
+              Marker(
+                  markerId: const MarkerId("1"),
+                  position: const LatLng(40.7128, -74.0059),
+                  // alpha: 0.4,
+                  // zIndex: 180,
+                  // rotation: 290,
+                  // icon: BitmapDescriptor.defaultMarkerWithHue(
+                  //   BitmapDescriptor.hueAzure,
+                  // ),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(20),
+                  draggable: true,
+                  // visible: false,
+                  onDrag: (_) {
+                    print('object');
+                    ;
+                  },
+                  infoWindow: InfoWindow(
+                    title: "NYC",
+                    snippet: "New York City",
+                    anchor: const Offset(0.5, 0),
+                    onTap: () {},
+                  )),
             },
           ),
           // Align(
