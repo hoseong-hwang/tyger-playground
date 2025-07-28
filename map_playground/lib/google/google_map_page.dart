@@ -113,6 +113,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 _controller = controller,
             initialCameraPosition: const CameraPosition(
               zoom: 20,
+              tilt: 90,
               // target: LatLng(37.5642135, 127.0016985),
               target: LatLng(40.7128, -74.0060),
             ),
@@ -124,19 +125,21 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               Marker(
                   markerId: const MarkerId("1"),
                   position: const LatLng(40.7128, -74.0059),
+                  flat: true,
+
                   // alpha: 0.4,
                   // zIndex: 180,
-                  // rotation: 290,
+                  // rotation: 45,
                   // icon: BitmapDescriptor.defaultMarkerWithHue(
                   //   BitmapDescriptor.hueAzure,
                   // ),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(35),
+                  // icon: BitmapDescriptor.defaultMarkerWithHue(35),
+                  // icon: BitmapDescriptor.bytes(byteData),
+                  // icon: BitmapDescriptor.asset(ImageConfiguration(), 'assetName'),
+                  // icon: BytesMapBitmap(Uint8List(10)),
                   draggable: true,
                   // visible: false,
-                  onDrag: (_) {
-                    print('object');
-                    ;
-                  },
+                  onDrag: (_) {},
                   infoWindow: InfoWindow(
                     title: "NYC",
                     snippet: "New York City",

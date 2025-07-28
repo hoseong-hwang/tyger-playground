@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         appBar: AppBar(
           title: const Text(
-            "Map Playground",
+            "Maps",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
