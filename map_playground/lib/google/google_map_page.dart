@@ -1,8 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:map_playground/google/custom_marker_widget.dart';
+import 'package:map_playground/google/google_map_helper.dart';
 
 class GoogleMapPage extends StatefulWidget {
   const GoogleMapPage({super.key});
@@ -14,6 +14,7 @@ class GoogleMapPage extends StatefulWidget {
 class _GoogleMapPageState extends State<GoogleMapPage> {
   final Location location = Location();
   GoogleMapController? _controller;
+  final GlobalKey _markerKey = GlobalKey();
 
   // Future<void> _moveCurrentLocation() async {
   //   final LocationData data = await location.getLocation();
@@ -102,6 +103,45 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   //   }
   // }
 
+  BitmapDescriptor? _bikeIcon;
+  BitmapDescriptor? _carIcon;
+  BitmapDescriptor? _widgetIcon;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWidgetIcon();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadBikeIcon();
+    _loadCarIcon();
+    // _loadWidgetIcon();
+  }
+
+  Future<void> _loadWidgetIcon() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(const Duration(milliseconds: 50));
+      _widgetIcon = await GoogleMapHelper.getMarkerWidgetIcon(_markerKey);
+    });
+  }
+
+  Future<void> _loadCarIcon() async {
+    _carIcon = await GoogleMapHelper.getNetworkMarkerIcon(
+        'https://velog.velcdn.com/images/tygerhwang/post/425cec5b-d7a7-4c9a-9075-37e795ffc3c8/image.png');
+  }
+
+  Future<void> _loadBikeIcon() async {
+    _bikeIcon = await BitmapDescriptor.asset(
+      createLocalImageConfiguration(context),
+      'assets/images/bike.png',
+      width: 64,
+      height: 64,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,8 +154,8 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             initialCameraPosition: const CameraPosition(
               zoom: 20,
               tilt: 90,
-              // target: LatLng(37.5642135, 127.0016985),
-              target: LatLng(40.7128, -74.0060),
+              target: LatLng(37.5642135, 127.0016985),
+              // target: LatLng(40.7128, -74.0060),
             ),
             mapType: MapType.normal,
             myLocationButtonEnabled: false,
@@ -125,21 +165,8 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               Marker(
                   markerId: const MarkerId("1"),
                   position: const LatLng(40.7128, -74.0059),
-                  flat: true,
-
-                  // alpha: 0.4,
-                  // zIndex: 180,
-                  // rotation: 45,
-                  // icon: BitmapDescriptor.defaultMarkerWithHue(
-                  //   BitmapDescriptor.hueAzure,
-                  // ),
-                  // icon: BitmapDescriptor.defaultMarkerWithHue(35),
-                  // icon: BitmapDescriptor.bytes(byteData),
-                  // icon: BitmapDescriptor.asset(ImageConfiguration(), 'assetName'),
-                  // icon: BytesMapBitmap(Uint8List(10)),
-                  draggable: true,
-                  // visible: false,
-                  onDrag: (_) {},
+                  // position: const LatLng(37.5642135, 127.0016985),
+                  icon: _widgetIcon ?? BitmapDescriptor.defaultMarker,
                   infoWindow: InfoWindow(
                     title: "NYC",
                     snippet: "New York City",
@@ -147,6 +174,14 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                     onTap: () {},
                   )),
             },
+          ),
+          Positioned(
+            top: -9999,
+            left: -9999,
+            child: RepaintBoundary(
+              key: _markerKey,
+              child: const CustomMarkerWidget(),
+            ),
           ),
           // Align(
           //   alignment: Alignment.center,
