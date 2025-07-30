@@ -148,12 +148,14 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
       body: Stack(
         children: [
           GoogleMap(
-            onTap: (LatLng position) {},
+            onTap: (LatLng position) {
+              print(position);
+            },
             onMapCreated: (GoogleMapController controller) =>
                 _controller = controller,
             initialCameraPosition: const CameraPosition(
               zoom: 20,
-              tilt: 90,
+              // tilt: 90,
               target: LatLng(37.5642135, 127.0016985),
               // target: LatLng(40.7128, -74.0060),
             ),
@@ -161,19 +163,71 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             myLocationButtonEnabled: false,
             myLocationEnabled: false,
             zoomControlsEnabled: false,
-            markers: {
-              Marker(
-                  markerId: const MarkerId("1"),
-                  position: const LatLng(40.7128, -74.0059),
-                  // position: const LatLng(37.5642135, 127.0016985),
-                  icon: _widgetIcon ?? BitmapDescriptor.defaultMarker,
-                  infoWindow: InfoWindow(
-                    title: "NYC",
-                    snippet: "New York City",
-                    anchor: const Offset(0.5, 0),
-                    onTap: () {},
-                  )),
+            // markers: {
+            //   Marker(
+            //       markerId: const MarkerId("1"),
+            //       position: const LatLng(40.7128, -74.0059),
+            //       // position: const LatLng(37.5642135, 127.0016985),
+            //       // icon: _widgetIcon ?? BitmapDescriptor.defaultMarker,
+            //       infoWindow: InfoWindow(
+            //         title: "NYC",
+            //         snippet: "New York City",
+            //         anchor: const Offset(0.5, 0),
+            //         onTap: () {},
+            //       )),
+            // },
+            polylines: {
+              Polyline(
+                polylineId: PolylineId("test_2"),
+                points: [
+                  LatLng(40.70639804724095, -74.00949496775866),
+                  LatLng(40.7093556406488, -74.00656197220087),
+                ],
+                width: 8,
+                startCap: Cap.roundCap,
+                endCap: Cap.roundCap,
+                color: Colors.blue,
+                geodesic: true,
+              ),
+              Polyline(
+                polylineId: PolylineId("test_1"),
+                points: [
+                  LatLng(-33.85457426946806, 151.21616262942553),
+                  LatLng(-18.918012522136006, 47.52157688140869),
+                ],
+                width: 8,
+                color: Colors.red.withOpacity(0.6),
+                geodesic: true,
+              ),
             },
+            // circles: {
+            //   Circle(
+            //     circleId: const CircleId('circle_1'),
+            //     center: const LatLng(37.5665, 126.9780),
+            //     radius: 1000000,
+            //     fillColor: Colors.blue.withOpacity(0.4),
+            //     strokeColor: Colors.blue.withOpacity(0.5),
+            //     strokeWidth: 2,
+            //   ),
+            //   Circle(
+            //     circleId: const CircleId('circle_2'),
+            //     center: const LatLng(33.4996, 126.5312),
+            //     radius: 600000,
+            //     fillColor: Colors.red.withOpacity(0.3),
+            //     strokeColor: Colors.red.withOpacity(0.4),
+            //     strokeWidth: 2,
+            //     zIndex: 1,
+            //   ),
+            //   Circle(
+            //     circleId: const CircleId('circle_3'),
+            //     center: const LatLng(35.1796, 129.0756),
+            //     radius: 400000,
+            //     fillColor: Colors.black.withOpacity(0.3),
+            //     strokeColor: Colors.black.withOpacity(0.4),
+            //     strokeWidth: 2,
+            //     zIndex: 1,
+            //   ),
+            // },
           ),
           Positioned(
             top: -9999,
