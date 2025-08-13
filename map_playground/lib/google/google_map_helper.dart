@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,6 +9,28 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 
 class GoogleMapHelper {
+  static Future<void> fetchGoogleGeocode(LatLng position) async {
+    // const key = 'AIzaSyDFYC6Nfif0GgcvPqalITn_twppssvSu3I';
+    const key = 'AIzaSyDRQ763aWsmva0QMQ-___VNeQvjwcm__b8';
+    final url = ''
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&language=ko&key=$key';
+    final http.Response response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'X-Android-Package': 'com.tyger.mapPlayground',
+        // 'X-IOS-Bundle-Identifier': 'com.tyger.mapPlayground',
+        // 'X-Android-Cert': 'A281656F2783FD4B39667ADAA8AC353D0AB9B8C',
+        'X-Android-Cert':
+            'A2:81:65:6F:27:83:FD:4B:39:66:7A:DA:BA:8A:C3:53:D0:AB:9B:8C',
+      },
+    );
+    if (response.statusCode != 200) {
+      print(response.statusCode);
+    }
+    final dynamic data = json.decode(response.body);
+    print(data);
+  }
+
   static Future<BitmapDescriptor> getNetworkMarkerIcon(String imageUrl) async {
     final http.Response response = await http.get(Uri.parse(imageUrl));
     if (response.statusCode != 200) {

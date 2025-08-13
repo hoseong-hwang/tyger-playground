@@ -150,6 +150,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
           GoogleMap(
             onTap: (LatLng position) {
               print(position);
+              GoogleMapHelper.fetchGoogleGeocode(position);
             },
             onMapCreated: (GoogleMapController controller) =>
                 _controller = controller,
