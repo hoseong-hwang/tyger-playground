@@ -151,6 +151,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             onTap: (LatLng position) {
               print(position);
               GoogleMapHelper.fetchGoogleGeocode(position);
+              GoogleMapHelper.fetchGoogleReverseGeocode('동탄지성로 394');
             },
             onMapCreated: (GoogleMapController controller) =>
                 _controller = controller,

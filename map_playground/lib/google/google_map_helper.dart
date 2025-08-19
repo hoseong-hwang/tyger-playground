@@ -8,26 +8,53 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 
 class GoogleMapHelper {
-  static Future<void> fetchGoogleGeocode(LatLng position) async {
-    // const key = 'AIzaSyDFYC6Nfif0GgcvPqalITn_twppssvSu3I';
-    const key = 'AIzaSyDRQ763aWsmva0QMQ-___VNeQvjwcm__b8';
-    final url = ''
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&language=ko&key=$key';
-    final http.Response response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'X-Android-Package': 'com.tyger.mapPlayground',
-        // 'X-IOS-Bundle-Identifier': 'com.tyger.mapPlayground',
-        // 'X-Android-Cert': 'A281656F2783FD4B39667ADAA8AC353D0AB9B8C',
-        'X-Android-Cert':
-            'A2:81:65:6F:27:83:FD:4B:39:66:7A:DA:BA:8A:C3:53:D0:AB:9B:8C',
-      },
-    );
+  static Future<void> fetchGoogleReverseGeocode(String address) async {
+    const String key = 'AIzaSyDHbQ19UMybWjUZuCkjUbi0Ubdsh3-VwaE';
+    final String url = ''
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&language=ko&key=$key';
+    final http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode != 200) {
-      print(response.statusCode);
+      throw Exception('HTTP ${response.statusCode}');
     }
-    final dynamic data = json.decode(response.body);
-    print(data);
+
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+    final String status = data['status'] as String? ?? 'UNKNOWN_ERROR';
+
+    if (status != 'OK') {
+      final msg = data['error_message'] ?? status;
+      throw Exception('Geocoding failed: $msg');
+    }
+
+    final List<dynamic> results = data['results'];
+    for (int i = 0; i < results.length; i++) {
+      print('$i: ${results[i]['geometry']['location']}');
+    }
+  }
+
+  static Future<void> fetchGoogleGeocode(LatLng position) async {
+    const String key = 'AIzaSyDHbQ19UMybWjUZuCkjUbi0Ubdsh3-VwaE';
+    final String url = ''
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&language=ko&key=$key';
+    final http.Response response = await http.get(Uri.parse(url));
+
+    if (response.statusCode != 200) {
+      throw Exception('HTTP ${response.statusCode}');
+    }
+
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+    final String status = data['status'] as String? ?? 'UNKNOWN_ERROR';
+
+    if (status != 'OK') {
+      final msg = data['error_message'] ?? status;
+      throw Exception('Geocoding failed: $msg');
+    }
+
+    final List<dynamic> results = data['results'];
+    for (int i = 0; i < results.length; i++) {
+      print('$i: ${results[i]['geometry']['location']}');
+    }
   }
 
   static Future<BitmapDescriptor> getNetworkMarkerIcon(String imageUrl) async {
