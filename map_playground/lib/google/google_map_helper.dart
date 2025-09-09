@@ -8,6 +8,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 
 class GoogleMapHelper {
+  static Future<void> fetchGoogleSearchPlace() async {
+    const String key = 'AIzaSyDHbQ19UMybWjUZuCkjUbi0Ubdsh3-VwaE';
+    final String url =
+        'https://maps.googleapis.com/maps/api/place/textsearch/json?query=자이&key=AIzaSyDHbQ19UMybWjUZuCkjUbi0Ubdsh3-VwaE&radius=10&language=ko&location=37.5665, 126.9780';
+  }
+
   static Future<void> fetchGoogleReverseGeocode(String address) async {
     const String key = 'AIzaSyDHbQ19UMybWjUZuCkjUbi0Ubdsh3-VwaE';
     final String url = ''
