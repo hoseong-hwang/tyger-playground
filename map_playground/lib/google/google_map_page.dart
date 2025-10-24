@@ -13,7 +13,7 @@ class GoogleMapPage extends StatefulWidget {
 
 class _GoogleMapPageState extends State<GoogleMapPage> {
   final Location location = Location();
-  GoogleMapController? _controller;
+  // GoogleMapController? _controller;
   final GlobalKey _markerKey = GlobalKey();
 
   // Future<void> _moveCurrentLocation() async {
@@ -103,10 +103,6 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   //   }
   // }
 
-  BitmapDescriptor? _bikeIcon;
-  BitmapDescriptor? _carIcon;
-  BitmapDescriptor? _widgetIcon;
-
   @override
   void initState() {
     super.initState();
@@ -124,23 +120,12 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   Future<void> _loadWidgetIcon() async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Future.delayed(const Duration(milliseconds: 50));
-      _widgetIcon = await GoogleMapHelper.getMarkerWidgetIcon(_markerKey);
     });
   }
 
-  Future<void> _loadCarIcon() async {
-    _carIcon = await GoogleMapHelper.getNetworkMarkerIcon(
-        'https://velog.velcdn.com/images/tygerhwang/post/425cec5b-d7a7-4c9a-9075-37e795ffc3c8/image.png');
-  }
+  Future<void> _loadCarIcon() async {}
 
-  Future<void> _loadBikeIcon() async {
-    _bikeIcon = await BitmapDescriptor.asset(
-      createLocalImageConfiguration(context),
-      'assets/images/bike.png',
-      width: 64,
-      height: 64,
-    );
-  }
+  Future<void> _loadBikeIcon() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -149,12 +134,11 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
         children: [
           GoogleMap(
             onTap: (LatLng position) {
-              print(position);
               GoogleMapHelper.fetchGoogleGeocode(position);
               GoogleMapHelper.fetchGoogleReverseGeocode('동탄지성로 394');
             },
-            onMapCreated: (GoogleMapController controller) =>
-                _controller = controller,
+            // onMapCreated: (GoogleMapController controller) =>
+            //     _controller = controller,
             initialCameraPosition: const CameraPosition(
               zoom: 6,
               // tilt: 90,
